@@ -8,7 +8,7 @@ import { api } from "~/utils/api";
 import type { RouterOutputs } from "~/utils/api";
 
 // TODO Auth
-import { SignIn, useUser } from "@clerk/nextjs";
+import { useUser } from "@clerk/nextjs";
 import { SignInButton } from "@clerk/nextjs";
 
 import dayjs from "dayjs";
@@ -17,9 +17,21 @@ dayjs.extend(relativeTime);
 
 // TODO Components
 import { LoadingPage } from "~/components/Loading";
+import { useState } from "react";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
+  const [input, setInput] = useState("");
+
+  const ctx = api.useContext();
+
+  const { mutate, isLoading: isPosting } = api.posts.create.useMutation({
+    onSuccess: () => {
+      setInput("");
+      void ctx.posts.getAll.invalidate();
+    },
+  });
+
   if (!user) return null;
 
   return (
@@ -35,7 +47,12 @@ const CreatePostWizard = () => {
         type="text"
         placeholder="Type Some Emojis!!!"
         className="grow bg-transparent"
+        value={input}
+        onChange={(e) => setInput(e.target.value)}
+        disabled={isPosting}
       />
+
+      <button onClick={() => mutate({ content: input })}>Post</button>
     </div>
   );
 };
@@ -54,7 +71,6 @@ const PostView = (props: PostWithUser) => {
         height={56}
         className="rounded-full"
       />
-
       <div className="flex flex-col">
         <div className="flex gap-1 font-medium text-slate-400">
           <span>{`@${author.username}`}</span>
@@ -76,7 +92,7 @@ const Feed = () => {
 
   return (
     <div className="flex flex-col">
-      {[...data, ...data]?.map((fullPost) => (
+      {data.map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}
     </div>
