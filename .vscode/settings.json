@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
         "nextjs",
-        "trpc"
+        "Ratelimit",
+        "trpc",
+        "upstash"
     ],
     "cSpell.ignoreWords": [
         "Chrip"
