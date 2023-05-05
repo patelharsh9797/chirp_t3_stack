@@ -18,6 +18,7 @@ dayjs.extend(relativeTime);
 // TODO Components
 import { LoadingPage } from "~/components/Loading";
 import { useState } from "react";
+import { toast } from "react-hot-toast";
 
 const CreatePostWizard = () => {
   const { user } = useUser();
@@ -29,6 +30,9 @@ const CreatePostWizard = () => {
     onSuccess: () => {
       setInput("");
       void ctx.posts.getAll.invalidate();
+    },
+    onError: () => {
+      toast.error("Failed to post! Please try again later.");
     },
   });
 
