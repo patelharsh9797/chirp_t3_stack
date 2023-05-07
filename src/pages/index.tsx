@@ -16,7 +16,7 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
 // TODO Components
-import { LoadingPage } from "~/components/Loading";
+import { LoadingPage, LoadingSpinner } from "~/components/Loading";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
 
@@ -31,7 +31,15 @@ const CreatePostWizard = () => {
       setInput("");
       void ctx.posts.getAll.invalidate();
     },
-    onError: () => toast.error("Failed to post! Please try again later."),
+    onError: (e) => {
+      const errorMsg = e.data?.zodError?.fieldErrors.content;
+
+      if (errorMsg && errorMsg[0]) {
+        toast.error(errorMsg[0]);
+      } else {
+        toast.error("Failed to post! Please try again later.");
+      }
+    },
   });
 
   if (!user) return null;
@@ -51,10 +59,25 @@ const CreatePostWizard = () => {
         className="grow bg-transparent"
         value={input}
         onChange={(e) => setInput(e.target.value)}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            e.preventDefault();
+
+            if (input !== "") mutate({ content: input });
+          }
+        }}
         disabled={isPosting}
       />
 
-      <button onClick={() => mutate({ content: input })}>Post</button>
+      {input !== "" && !isPosting && (
+        <button onClick={() => mutate({ content: input })}>Post</button>
+      )}
+
+      {isPosting && (
+        <div className="flex items-center justify-center">
+          <LoadingSpinner size={20} />
+        </div>
+      )}
     </div>
   );
 };
