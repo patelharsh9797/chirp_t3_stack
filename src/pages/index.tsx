@@ -31,9 +31,7 @@ const CreatePostWizard = () => {
       setInput("");
       void ctx.posts.getAll.invalidate();
     },
-    onError: () => {
-      toast.error("Failed to post! Please try again later.");
-    },
+    onError: () => toast.error("Failed to post! Please try again later."),
   });
 
   if (!user) return null;
