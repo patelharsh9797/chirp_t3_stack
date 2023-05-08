@@ -6,21 +6,24 @@ import { api } from "~/utils/api";
 import PageLayout from "~/components/PageLayout";
 
 // TODO for getStaticProps
-import { createServerSideHelpers } from "@trpc/react-query/server";
-import { appRouter } from "~/server/api/root";
-import { prisma } from "~/server/db";
-import superjson from "superjson";
+
 import Image from "next/image";
 import { LoadingPage } from "~/components/Loading";
 
 import PostView from "~/components/PostView";
+import { generateSSGHelper } from "~/server/helpers/ssgHelper";
 
 const ProfileFeed = (props: { userId: string }) => {
   const { data, isLoading } = api.posts.getPostsByUser.useQuery({
     userId: props.userId,
   });
 
-  if (isLoading) return <LoadingPage />;
+  if (isLoading)
+    return (
+      <div className="flex h-full items-center justify-center">
+        <LoadingPage />
+      </div>
+    );
 
   if (!data || data.length === 0) return <div>User has not posted yet.</div>;
 
@@ -33,7 +36,7 @@ const ProfileFeed = (props: { userId: string }) => {
   );
 };
 
-const Home: NextPage<{ username: string }> = ({ username }) => {
+const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   const { data } = api.profile.getUserByUsername.useQuery({
     username,
   });
@@ -71,11 +74,7 @@ const Home: NextPage<{ username: string }> = ({ username }) => {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const ssg = createServerSideHelpers({
-    router: appRouter,
-    ctx: { prisma, userId: null },
-    transformer: superjson,
-  });
+  const ssg = generateSSGHelper();
 
   const slug = context.params?.slug;
 
@@ -96,4 +95,4 @@ export const getStaticProps: GetStaticProps = async (context) => {
 export const getStaticPaths = () => {
   return { paths: [], fallback: "blocking" };
 };
-export default Home;
+export default ProfilePage;
