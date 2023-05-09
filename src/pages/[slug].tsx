@@ -28,7 +28,7 @@ const ProfileFeed = (props: { userId: string }) => {
   if (!data || data.length === 0) return <div>User has not posted yet.</div>;
 
   return (
-    <div className="flex flex-col">
+    <div className="flex grow flex-col">
       {data.map((fullPost) => (
         <PostView {...fullPost} key={fullPost.post.id} />
       ))}
@@ -46,7 +46,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
   return (
     <>
       <Head>
-        <title>{data.username} - Chirp</title>
+        <title>{data.username} - Emotter</title>
       </Head>
       <PageLayout>
         <div className="relative h-36  bg-slate-600">
@@ -65,7 +65,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
           } `}</h2>
         </div>
         <div className="w-full border-b border-slate-400"></div>
-        <div>
+        <div className="overflow-y-auto">
           <ProfileFeed userId={data.id} />
         </div>
       </PageLayout>

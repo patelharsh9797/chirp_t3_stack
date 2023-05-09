@@ -11,7 +11,7 @@ const MyApp: AppType = ({ Component, pageProps }) => {
   return (
     <ClerkProvider {...pageProps}>
       <Head>
-        <title>Chrip T3 Stack App</title>
+        <title>Emotter T3 Stack App</title>
         <meta name="description" content="💭" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
