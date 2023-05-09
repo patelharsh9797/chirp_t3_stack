@@ -8,7 +8,7 @@ import PageLayout from "~/components/PageLayout";
 // TODO for getStaticProps
 
 import Image from "next/image";
-import { LoadingPage } from "~/components/Loading";
+import { LoadingSpinner } from "~/components/Loading";
 
 import PostView from "~/components/PostView";
 import { generateSSGHelper } from "~/server/helpers/ssgHelper";
@@ -21,7 +21,7 @@ const ProfileFeed = (props: { userId: string }) => {
   if (isLoading)
     return (
       <div className="flex h-full items-center justify-center">
-        <LoadingPage />
+        <LoadingSpinner size={60} />
       </div>
     );
 
@@ -65,7 +65,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
           } `}</h2>
         </div>
         <div className="w-full border-b border-slate-400"></div>
-        <div className="overflow-y-auto">
+        <div className="grow overflow-y-auto">
           <ProfileFeed userId={data.id} />
         </div>
       </PageLayout>

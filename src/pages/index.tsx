@@ -53,7 +53,7 @@ const CreatePostWizard = () => {
       <input
         type="text"
         placeholder="Type Some Emojis!!!"
-        className="grow bg-transparent"
+        className="grow bg-transparent px-4"
         value={input}
         onChange={(e) => setInput(e.target.value)}
         onKeyDown={(e) => {
