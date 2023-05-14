@@ -6,8 +6,7 @@ import Image from "next/image";
 import { api } from "~/utils/api";
 
 // TODO Auth
-import { useUser } from "@clerk/nextjs";
-import { SignInButton } from "@clerk/nextjs";
+import { SignInButton, useUser, UserButton } from "@clerk/nextjs";
 
 // TODO Components
 import { LoadingPage, LoadingSpinner } from "~/components/Loading";
@@ -43,12 +42,22 @@ const CreatePostWizard = () => {
 
   return (
     <div className="flex w-full gap-4 ">
-      <Image
+      {/* <Image
         src={user.profileImageUrl}
         alt="user image"
         width={56}
         height={56}
         className="rounded-full"
+      /> */}
+      <UserButton
+        appearance={{
+          elements: {
+            userButtonAvatarBox: {
+              width: 56,
+              height: 56,
+            },
+          },
+        }}
       />
       <input
         type="text"
