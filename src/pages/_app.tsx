@@ -6,6 +6,7 @@ import { ClerkProvider } from "@clerk/nextjs";
 
 import "~/styles/globals.css";
 import HotToast from "~/components/HotToast";
+import { PagesProgressBar as ProgressBar } from "next-nprogress-bar";
 
 const MyApp: AppType = ({ Component, pageProps }) => {
   return (
@@ -17,6 +18,12 @@ const MyApp: AppType = ({ Component, pageProps }) => {
       </Head>
       <HotToast />
       <Component {...pageProps} />
+      <ProgressBar
+        height="4px"
+        color="#fff"
+        options={{ showSpinner: false }}
+        shallowRouting
+      />
     </ClerkProvider>
   );
 };

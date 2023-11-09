@@ -49,7 +49,8 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
         <title>{data.username} - Emotter</title>
       </Head>
       <PageLayout>
-        <div className="relative h-36  bg-slate-600">
+        <div className="shrink-0">
+        <div className="relative h-36 bg-slate-600">
           <Image
             src={data.profileImageUrl}
             alt={`${data.profileImageUrl ?? ""}'s profile pic`}
@@ -63,7 +64,7 @@ const ProfilePage: NextPage<{ username: string }> = ({ username }) => {
           <h2 className="p-4 text-2xl font-bold">{`@${
             data.username ?? ""
           } `}</h2>
-        </div>
+        </div></div>
         <div className="w-full border-b border-slate-400"></div>
         <div className="grow overflow-y-auto">
           <ProfileFeed userId={data.id} />
