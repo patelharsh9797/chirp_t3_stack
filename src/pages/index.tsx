@@ -1,6 +1,6 @@
 // TODO Next.js
 import { type NextPage } from "next";
-import Image from "next/image";
+// import Image from "next/image";
 
 // TODO utils
 import { api } from "~/utils/api";
@@ -98,7 +98,7 @@ const Feed = () => {
       </div>
     );
 
-  if (!data) return <div>Something went wrong</div>;
+  if (!data) return <div className="flex grow">Something went wrong</div>;
 
   return (
     <div className="flex grow flex-col overflow-y-auto">
